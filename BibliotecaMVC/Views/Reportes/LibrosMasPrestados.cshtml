@@ -1,0 +1,118 @@
+@model LibrosMasPrestadosViewModel
+@{
+    ViewData["Title"] = "Libros más prestados";
+}
+
+<h1 class="h3 mb-1">Reporte: libros más prestados</h1>
+<p class="text-muted">
+    Del @Model.Desde?.ToString("dd/MM/yyyy") al @Model.Hasta?.ToString("dd/MM/yyyy")@(string.IsNullOrEmpty(Model.Genero) ? "" : $", género {Model.Genero}").
+</p>
+
+<form method="get" class="card card-body mb-4">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+    <div class="row g-3 align-items-end">
+        <div class="col-sm-6 col-md-3">
+            <label asp-for="Desde" class="form-label"></label>
+            <input asp-for="Desde" class="form-control" />
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label asp-for="Hasta" class="form-label"></label>
+            <input asp-for="Hasta" class="form-control" />
+            <span asp-validation-for="Hasta" class="text-danger small"></span>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label asp-for="Genero" class="form-label"></label>
+            <select asp-for="Genero" asp-items="Model.Generos" class="form-select">
+                <option value="">Todos los géneros</option>
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <label asp-for="Top" class="form-label"></label>
+            <select asp-for="Top" asp-items="Model.OpcionesTop" class="form-select"></select>
+        </div>
+    </div>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Generar reporte</button>
+        <a class="btn btn-link" asp-action="LibrosMasPrestados">Quitar filtros</a>
+    </div>
+</form>
+
+@if (ViewData.ModelState.IsValid)
+{
+    <div class="row g-3 mb-3">
+        <div class="col-sm-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-muted small">Préstamos en el período</div>
+                    <div class="fs-3 fw-semibold">@Model.TotalPrestamos</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-muted small">Títulos distintos prestados</div>
+                    <div class="fs-3 fw-semibold">@Model.TitulosDistintos</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-muted small">Género más pedido</div>
+                    <div class="fs-3 fw-semibold">@(Model.GeneroMasPedido ?? "—")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Filas.Count == 0)
+    {
+        <div class="alert alert-info">No hubo préstamos en el período seleccionado.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th class="text-center">Puesto</th>
+                        <th>Libro</th>
+                        <th>Autor</th>
+                        <th>Género</th>
+                        <th class="text-end">Préstamos</th>
+                        <th class="text-end">% del total</th>
+                        <th class="text-end">Stock disponible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var fila in Model.Filas)
+                    {
+                        <tr>
+                            <td class="text-center fw-semibold">@fila.Puesto</td>
+                            <td><a asp-controller="Libros" asp-action="Details" asp-route-id="@fila.IdLibro">@fila.Titulo</a></td>
+                            <td>@fila.Autor</td>
+                            <td>@fila.Genero</td>
+                            <td class="text-end">@fila.CantidadPrestamos</td>
+                            <td class="text-end">@fila.Porcentaje.ToString("0.0") %</td>
+                            <td class="text-end">
+                                @if (fila.Stock == 0)
+                                {
+                                    <span class="badge text-bg-danger">Sin stock</span>
+                                }
+                                else
+                                {
+                                    @fila.Stock
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (Model.Filas.Count < Model.TitulosDistintos)
+        {
+            <p class="text-muted small">Se muestran los primeros @Model.Filas.Count de @Model.TitulosDistintos títulos. Los totales consideran todo el período.</p>
+        }
+    }
+}
