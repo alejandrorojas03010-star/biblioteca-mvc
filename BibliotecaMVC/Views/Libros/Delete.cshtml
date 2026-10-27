@@ -1,0 +1,36 @@
+@model Libro
+@{
+    ViewData["Title"] = "Eliminar libro";
+}
+
+<h1 class="h3 mb-3">Eliminar libro</h1>
+
+@if (Model.Prestamos.Any())
+{
+    <div class="alert alert-warning">
+        <strong>@Model.Titulo</strong> tiene @Model.Prestamos.Count préstamo(s) registrados, por eso no se puede eliminar.
+        Así se conserva el historial de la biblioteca.
+    </div>
+    <a class="btn btn-secondary" asp-action="Index">Volver al listado</a>
+}
+else
+{
+    <div class="alert alert-danger">¿Seguro que querés eliminar este libro del catálogo? Esta acción no se puede deshacer.</div>
+
+    <dl class="row">
+        <dt class="col-sm-3">Título</dt>
+        <dd class="col-sm-9">@Model.Titulo</dd>
+        <dt class="col-sm-3">Autor</dt>
+        <dd class="col-sm-9">@Model.Autor!.Nombre</dd>
+        <dt class="col-sm-3">Género</dt>
+        <dd class="col-sm-9">@Model.Genero</dd>
+        <dt class="col-sm-3">Stock disponible</dt>
+        <dd class="col-sm-9">@Model.Stock</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdLibro" />
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a class="btn btn-link" asp-action="Index">Cancelar</a>
+    </form>
+}

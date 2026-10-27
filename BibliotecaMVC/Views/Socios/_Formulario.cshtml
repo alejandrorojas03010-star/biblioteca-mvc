@@ -1,0 +1,19 @@
+@model Socio
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+<div class="mb-3">
+    <label asp-for="Nombre" class="form-label"></label>
+    <input asp-for="Nombre" class="form-control" autofocus />
+    <span asp-validation-for="Nombre" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Email" class="form-label"></label>
+    <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="FechaAlta" class="form-label"></label>
+    <input asp-for="FechaAlta" class="form-control" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+    <span asp-validation-for="FechaAlta" class="text-danger"></span>
+</div>

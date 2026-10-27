@@ -1,0 +1,35 @@
+@model Socio
+@{
+    ViewData["Title"] = "Eliminar socio";
+    var tienePrestamos = Model.Prestamos.Any();
+}
+
+<h1 class="h3 mb-3">Eliminar socio</h1>
+
+@if (tienePrestamos)
+{
+    <div class="alert alert-warning">
+        <strong>@Model.Nombre</strong> tiene @Model.Prestamos.Count préstamo(s) registrados, por eso no se puede eliminar.
+        Así se conserva el historial de la biblioteca.
+    </div>
+    <a class="btn btn-secondary" asp-action="Index">Volver al listado</a>
+}
+else
+{
+    <div class="alert alert-danger">¿Seguro que querés eliminar a este socio? Esta acción no se puede deshacer.</div>
+
+    <dl class="row">
+        <dt class="col-sm-3">Nombre</dt>
+        <dd class="col-sm-9">@Model.Nombre</dd>
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+        <dt class="col-sm-3">Fecha de alta</dt>
+        <dd class="col-sm-9">@Model.FechaAlta.ToString("dd/MM/yyyy")</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdSocio" />
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a class="btn btn-link" asp-action="Index">Cancelar</a>
+    </form>
+}

@@ -1,0 +1,21 @@
+@model LibroFormViewModel
+@{
+    ViewData["Title"] = "Editar libro";
+}
+
+<h1 class="h3 mb-3">Editar libro</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="IdLibro" />
+            <partial name="_Formulario" model="Model" />
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <a class="btn btn-link" asp-action="Index">Volver al listado</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

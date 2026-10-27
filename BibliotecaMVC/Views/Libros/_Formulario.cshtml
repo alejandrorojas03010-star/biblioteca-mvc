@@ -1,0 +1,34 @@
+@model LibroFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+<div class="mb-3">
+    <label asp-for="Titulo" class="form-label"></label>
+    <input asp-for="Titulo" class="form-control" autofocus />
+    <span asp-validation-for="Titulo" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="IdAutor" class="form-label"></label>
+    <select asp-for="IdAutor" asp-items="Model.Autores" class="form-select">
+        <option value="">— Seleccioná un autor —</option>
+    </select>
+    <span asp-validation-for="IdAutor" class="text-danger"></span>
+    <div class="form-text">¿No está en la lista? <a asp-controller="Autores" asp-action="Create">Cargá un autor nuevo</a>.</div>
+</div>
+<div class="mb-3">
+    <label asp-for="Genero" class="form-label"></label>
+    <input asp-for="Genero" class="form-control" list="generosExistentes" />
+    <datalist id="generosExistentes">
+        @foreach (var genero in Model.GenerosExistentes)
+        {
+            <option value="@genero"></option>
+        }
+    </datalist>
+    <span asp-validation-for="Genero" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Stock" class="form-label"></label>
+    <input asp-for="Stock" class="form-control" min="0" />
+    <span asp-validation-for="Stock" class="text-danger"></span>
+    <div class="form-text">Cantidad de ejemplares que están en la biblioteca ahora (sin contar los prestados).</div>
+</div>
