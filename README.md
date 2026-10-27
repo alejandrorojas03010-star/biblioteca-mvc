@@ -129,4 +129,21 @@ Lista los préstamos que todavía no tienen fecha de devolución, del más antig
 
 ### Reporte 2 — Libros más prestados por período (responsable: Sebastián Maldonado)
 
-_Descripción y utilidad del reporte._
+Menú **Reportes → Libros más prestados**.
+
+Arma un ranking de los libros según la cantidad de préstamos en un período, de mayor a menor. Por cada libro muestra:
+
+- puesto
+- título, autor y género
+- cantidad de préstamos
+- porcentaje sobre el total del período
+- stock disponible
+
+**Filtros:**
+- rango de fechas (por defecto, del 1 de enero del año actual a hoy)
+- género
+- cantidad de filas (Top 5, Top 10 o todos)
+
+**Resumen:** total de préstamos del período, cantidad de títulos distintos prestados y género más pedido.
+
+**Utilidad:** muestra qué libros y géneros piden más los socios. Ayuda a decidir qué ejemplares conviene comprar, sobre todo los más pedidos que tienen poco stock.
