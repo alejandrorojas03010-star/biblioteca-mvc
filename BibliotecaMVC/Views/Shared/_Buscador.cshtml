@@ -1,0 +1,14 @@
+@model string
+@* Buscador de texto reutilizable para los listados. El modelo es el texto de ayuda. *@
+<form method="get" class="row g-2 mb-3" role="search">
+    <div class="col-sm-8 col-md-6">
+        <input type="search" name="buscar" value="@ViewData["Buscar"]" class="form-control" placeholder="@Model" aria-label="Buscar" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-primary">Buscar</button>
+        @if (!string.IsNullOrEmpty(ViewData["Buscar"] as string))
+        {
+            <a class="btn btn-link" asp-action="Index">Limpiar</a>
+        }
+    </div>
+</form>

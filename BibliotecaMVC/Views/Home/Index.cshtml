@@ -1,0 +1,84 @@
+﻿@model InicioViewModel
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h1 class="h3 mb-1">Panel de la biblioteca</h1>
+        <p class="text-muted mb-0">Resumen del estado actual del catálogo y los préstamos.</p>
+    </div>
+    <a class="btn btn-primary" asp-controller="Prestamos" asp-action="Create">+ Registrar préstamo</a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <a class="card text-decoration-none h-100" asp-controller="Socios" asp-action="Index">
+            <div class="card-body">
+                <div class="text-muted small">Socios</div>
+                <div class="fs-2 fw-semibold">@Model.CantidadSocios</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a class="card text-decoration-none h-100" asp-controller="Libros" asp-action="Index">
+            <div class="card-body">
+                <div class="text-muted small">Títulos en catálogo</div>
+                <div class="fs-2 fw-semibold">@Model.CantidadLibros</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a class="card text-decoration-none h-100" asp-controller="Libros" asp-action="Index">
+            <div class="card-body">
+                <div class="text-muted small">Ejemplares disponibles</div>
+                <div class="fs-2 fw-semibold">@Model.EjemplaresDisponibles</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a class="card text-decoration-none h-100" asp-controller="Prestamos" asp-action="Index" asp-route-estado="pendientes">
+            <div class="card-body">
+                <div class="text-muted small">Préstamos pendientes</div>
+                <div class="fs-2 fw-semibold">@Model.PrestamosPendientes</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">Últimos préstamos</span>
+        <a asp-controller="Prestamos" asp-action="Index">Ver todos</a>
+    </div>
+    @if (!Model.UltimosPrestamos.Any())
+    {
+        <div class="card-body text-muted">Todavía no hay préstamos registrados.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Socio</th>
+                        <th>Libro</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prestamo in Model.UltimosPrestamos)
+                    {
+                        <tr>
+                            <td>@prestamo.FechaPrestamo.ToString("dd/MM/yyyy")</td>
+                            <td>@prestamo.Socio!.Nombre</td>
+                            <td>@prestamo.Libro!.Titulo</td>
+                            <td><partial name="_EstadoPrestamo" model="prestamo" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

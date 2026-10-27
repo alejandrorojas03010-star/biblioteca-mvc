@@ -1,0 +1,8 @@
+@model (string Controlador, string Texto)
+@{
+    var activo = string.Equals(ViewContext.RouteData.Values["controller"]?.ToString(), Model.Controlador,
+        StringComparison.OrdinalIgnoreCase);
+}
+<li class="nav-item">
+    <a class="nav-link @(activo ? "active fw-semibold" : "")" asp-controller="@Model.Controlador" asp-action="Index">@Model.Texto</a>
+</li>

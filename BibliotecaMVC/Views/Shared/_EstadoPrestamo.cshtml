@@ -1,0 +1,9 @@
+@model BibliotecaMVC.Models.Prestamo
+@if (Model.EstaPendiente)
+{
+    <span class="badge text-bg-warning">Pendiente</span>
+}
+else
+{
+    <span class="badge text-bg-success">Devuelto</span>
+}
