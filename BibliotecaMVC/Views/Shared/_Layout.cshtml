@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -25,6 +25,13 @@
                         <partial name="_ItemMenu" model='("Socios", "Socios")' />
                         <partial name="_ItemMenu" model='("Libros", "Libros")' />
                         <partial name="_ItemMenu" model='("Autores", "Autores")' />
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reportes" ? "active fw-semibold" : "")"
+                               href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reportes</a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" asp-controller="Reportes" asp-action="PrestamosPendientes">Préstamos pendientes</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
