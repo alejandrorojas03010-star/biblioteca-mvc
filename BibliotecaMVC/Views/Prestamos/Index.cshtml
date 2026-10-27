@@ -1,0 +1,78 @@
+@model IEnumerable<Prestamo>
+@{
+    ViewData["Title"] = "Préstamos";
+    var estado = ViewData["Estado"] as string;
+    var hayFiltros = !string.IsNullOrEmpty(ViewData["Buscar"] as string) || !string.IsNullOrEmpty(estado);
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="h3 mb-0">Préstamos</h1>
+    <a class="btn btn-primary" asp-action="Create">+ Registrar préstamo</a>
+</div>
+
+<form method="get" class="row g-2 mb-3" role="search">
+    <div class="col-sm-6 col-md-5">
+        <input type="search" name="buscar" value="@ViewData["Buscar"]" class="form-control" placeholder="Buscar por socio o libro" aria-label="Buscar" />
+    </div>
+    <div class="col-sm-4 col-md-3">
+        <select name="estado" class="form-select" aria-label="Estado">
+            <option value="">Todos los estados</option>
+            <option value="pendientes" selected="@(estado == "pendientes")">Pendientes</option>
+            <option value="devueltos" selected="@(estado == "devueltos")">Devueltos</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+        @if (hayFiltros)
+        {
+            <a class="btn btn-link" asp-action="Index">Limpiar</a>
+        }
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No se encontraron préstamos.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Nº</th>
+                    <th>Socio</th>
+                    <th>Libro</th>
+                    <th>Fecha de préstamo</th>
+                    <th>Fecha de devolución</th>
+                    <th>Estado</th>
+                    <th class="text-end">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var prestamo in Model)
+                {
+                    <tr>
+                        <td>@prestamo.IdPrestamo</td>
+                        <td><a asp-controller="Socios" asp-action="Details" asp-route-id="@prestamo.IdSocio">@prestamo.Socio!.Nombre</a></td>
+                        <td><a asp-controller="Libros" asp-action="Details" asp-route-id="@prestamo.IdLibro">@prestamo.Libro!.Titulo</a></td>
+                        <td>@prestamo.FechaPrestamo.ToString("dd/MM/yyyy")</td>
+                        <td>@(prestamo.FechaDevolucion?.ToString("dd/MM/yyyy") ?? "—")</td>
+                        <td><partial name="_EstadoPrestamo" model="prestamo" /></td>
+                        <td class="text-end text-nowrap">
+                            @if (prestamo.EstaPendiente)
+                            {
+                                <a class="btn btn-sm btn-success" asp-action="Devolver" asp-route-id="@prestamo.IdPrestamo">Registrar devolución</a>
+                            }
+                            <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@prestamo.IdPrestamo">Editar</a>
+                            <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@prestamo.IdPrestamo">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <p class="text-muted">
+        Total: @Model.Count() préstamo(s) — @Model.Count(p => p.EstaPendiente) pendiente(s), @Model.Count(p => !p.EstaPendiente) devuelto(s).
+    </p>
+}

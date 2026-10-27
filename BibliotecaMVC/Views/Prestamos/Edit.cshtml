@@ -1,0 +1,43 @@
+@model PrestamoEditViewModel
+@{
+    ViewData["Title"] = "Editar préstamo";
+}
+
+<h1 class="h3 mb-3">Editar préstamo Nº @Model.IdPrestamo</h1>
+
+<div class="row">
+    <div class="col-md-7 col-lg-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            <input type="hidden" asp-for="IdPrestamo" />
+
+            <div class="mb-3">
+                <label asp-for="NombreSocio" class="form-label"></label>
+                <input asp-for="NombreSocio" class="form-control" readonly />
+            </div>
+            <div class="mb-3">
+                <label asp-for="TituloLibro" class="form-label"></label>
+                <input asp-for="TituloLibro" class="form-control" readonly />
+                <div class="form-text">Para cambiar el socio o el libro, eliminá este préstamo y registrá uno nuevo.</div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FechaPrestamo" class="form-label"></label>
+                <input asp-for="FechaPrestamo" class="form-control" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="FechaPrestamo" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FechaDevolucion" class="form-label"></label>
+                <input asp-for="FechaDevolucion" class="form-control" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="FechaDevolucion" class="text-danger"></span>
+                <div class="form-text">Dejala vacía si el libro todavía no fue devuelto.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <a class="btn btn-link" asp-action="Index">Volver al listado</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

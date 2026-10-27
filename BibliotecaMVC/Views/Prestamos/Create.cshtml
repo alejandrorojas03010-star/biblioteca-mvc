@@ -1,0 +1,42 @@
+@model PrestamoCreateViewModel
+@{
+    ViewData["Title"] = "Registrar préstamo";
+}
+
+<h1 class="h3 mb-3">Registrar préstamo</h1>
+
+<div class="row">
+    <div class="col-md-7 col-lg-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="IdSocio" class="form-label"></label>
+                <select asp-for="IdSocio" asp-items="Model.Socios" class="form-select" autofocus>
+                    <option value="">— Seleccioná un socio —</option>
+                </select>
+                <span asp-validation-for="IdSocio" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="IdLibro" class="form-label"></label>
+                <select asp-for="IdLibro" asp-items="Model.Libros" class="form-select">
+                    <option value="">— Seleccioná un libro —</option>
+                </select>
+                <span asp-validation-for="IdLibro" class="text-danger"></span>
+                <div class="form-text">Solo se muestran los libros con ejemplares disponibles.</div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FechaPrestamo" class="form-label"></label>
+                <input asp-for="FechaPrestamo" class="form-control" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="FechaPrestamo" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrar préstamo</button>
+            <a class="btn btn-link" asp-action="Index">Volver al listado</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

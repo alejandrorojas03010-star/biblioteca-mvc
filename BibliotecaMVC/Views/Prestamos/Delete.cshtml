@@ -1,0 +1,36 @@
+@model Prestamo
+@{
+    ViewData["Title"] = "Eliminar préstamo";
+}
+
+<h1 class="h3 mb-3">Eliminar préstamo</h1>
+
+<div class="alert alert-danger">
+    ¿Seguro que querés eliminar este préstamo? Esta acción no se puede deshacer.
+    @if (Model.EstaPendiente)
+    {
+        <br />
+        <span>Como el libro todavía no fue devuelto, el ejemplar volverá a quedar disponible.</span>
+    }
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Nº de préstamo</dt>
+    <dd class="col-sm-9">@Model.IdPrestamo</dd>
+    <dt class="col-sm-3">Socio</dt>
+    <dd class="col-sm-9">@Model.Socio!.Nombre</dd>
+    <dt class="col-sm-3">Libro</dt>
+    <dd class="col-sm-9">@Model.Libro!.Titulo (@Model.Libro.Autor!.Nombre)</dd>
+    <dt class="col-sm-3">Fecha de préstamo</dt>
+    <dd class="col-sm-9">@Model.FechaPrestamo.ToString("dd/MM/yyyy")</dd>
+    <dt class="col-sm-3">Fecha de devolución</dt>
+    <dd class="col-sm-9">@(Model.FechaDevolucion?.ToString("dd/MM/yyyy") ?? "—")</dd>
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9"><partial name="_EstadoPrestamo" model="Model" /></dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="IdPrestamo" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a class="btn btn-link" asp-action="Index">Cancelar</a>
+</form>

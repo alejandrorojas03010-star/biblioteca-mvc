@@ -1,0 +1,42 @@
+@model PrestamoEditViewModel
+@{
+    ViewData["Title"] = "Registrar devolución";
+}
+
+<h1 class="h3 mb-3">Registrar devolución</h1>
+
+<div class="row">
+    <div class="col-md-7 col-lg-6">
+        <dl class="row">
+            <dt class="col-sm-5">Nº de préstamo</dt>
+            <dd class="col-sm-7">@Model.IdPrestamo</dd>
+            <dt class="col-sm-5">Socio</dt>
+            <dd class="col-sm-7">@Model.NombreSocio</dd>
+            <dt class="col-sm-5">Libro</dt>
+            <dd class="col-sm-7">@Model.TituloLibro</dd>
+            <dt class="col-sm-5">Fecha de préstamo</dt>
+            <dd class="col-sm-7">@Model.FechaPrestamo.ToString("dd/MM/yyyy")</dd>
+        </dl>
+
+        <form asp-action="Devolver">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            <input type="hidden" asp-for="IdPrestamo" />
+            <input type="hidden" asp-for="FechaPrestamo" />
+
+            <div class="mb-3">
+                <label asp-for="FechaDevolucion" class="form-label"></label>
+                <input asp-for="FechaDevolucion" class="form-control"
+                       min="@Model.FechaPrestamo.ToString("yyyy-MM-dd")" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="FechaDevolucion" class="text-danger"></span>
+                <div class="form-text">Al confirmar, el ejemplar vuelve a quedar disponible.</div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Confirmar devolución</button>
+            <a class="btn btn-link" asp-action="Index">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
