@@ -107,7 +107,25 @@ Las relaciones usan `DeleteBehavior.Restrict`: no se borra un registro que tiene
 
 ### Reporte 1 — Préstamos pendientes (responsable: Matías Córdova)
 
-_Descripción y utilidad del reporte._
+Menú **Reportes → Préstamos pendientes**.
+
+Lista los préstamos que todavía no tienen fecha de devolución, del más antiguo al más reciente. Por cada uno muestra:
+
+- socio y su email
+- libro y autor
+- fecha de préstamo
+- días que lleva afuera
+- si está **atrasado**, es decir, si supera los días permitidos
+
+**Filtros:**
+- socio
+- rango de fechas de préstamo
+- días permitidos (por defecto 14)
+- "solo atrasados"
+
+**Resumen:** cantidad de préstamos pendientes, cantidad de atrasados y promedio de días afuera.
+
+**Utilidad:** la bibliotecaria ve de un vistazo qué ejemplares faltan y a quién reclamárselos. Puede escribirle al socio desde el mismo reporte y registrar la devolución con un clic.
 
 ### Reporte 2 — Libros más prestados por período (responsable: Sebastián Maldonado)
 
