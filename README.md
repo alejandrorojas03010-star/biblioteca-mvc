@@ -14,6 +14,8 @@ El sistema está construido a partir del Diagrama Entidad-Relación del equipo (
 
 ## Funcionalidades
 
+**Datos de demostración con Bogus:** al iniciar en `Development`, `Data/SociosSeeder.cs` completa la base hasta alcanzar **100 socios en total**, conservando los existentes. Genera nombres en español, emails únicos de ejemplo y fechas de alta no futuras. Si ya existen 100 o más, no agrega registros ni elimina datos. Los cinco socios de la migración inicial y sus préstamos permanecen intactos. La generación se ejecuta fuera de `OnModelCreating`, por lo que no cambia las migraciones con datos aleatorios.
+
 - **Socios:** alta, consulta, edición y baja. El email no puede repetirse. No se puede eliminar un socio que tiene préstamos, para conservar el historial.
 - **Autores:** ABM completo. No se puede eliminar un autor que tiene libros en el catálogo.
 - **Libros:** ABM completo, con filtro por título, autor y género. Cada libro muestra el nombre de su autor y su historial de préstamos.
@@ -43,6 +45,8 @@ El sistema está construido a partir del Diagrama Entidad-Relación del equipo (
   ```
 
 ## Cómo ejecutar
+
+**macOS con Rider:** si aparece `LocalDB is not supported on this platform`, consultar la [guía de ejecución en Mac](Guias/Ejecutar-en-Mac-con-Rider.md). El script `bash scripts/preparar-mac.sh` prepara SQL Server en OrbStack, configura la conexión local mediante User Secrets y aplica las migraciones.
 
 1. Clonar el repositorio:
 
@@ -76,6 +80,12 @@ El sistema está construido a partir del Diagrama Entidad-Relación del equipo (
    O abrir `Biblioteca.sln` en Visual Studio y presionar F5. La app queda en `http://localhost:5087`.
 
 ## Estructura del proyecto
+
+Material adicional del equipo:
+
+- [Guiones, explicación técnica y preguntas de defensa](Guias/Defensa/LEEME.md).
+- [Modelo entidad-relación en PowerPoint](Modelo_ER_Biblioteca.pptx).
+- [Consultas SQL para revisar los datos en Rider](Consultas/PanelBiblioteca.sql): socios, resumen del panel, catálogo, disponibilidad y préstamos pendientes.
 
 ```
 BibliotecaMVC/
